@@ -1,42 +1,36 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class TestAddGroup(unittest.TestCase):
+class UntitledTestCase(unittest.TestCase):
     def setUp(self):
-        self.wd = webdriver.Chrome(executable_path=r'')
+        self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
     
-    def test_add_group(self):
+    def test_untitled_test_case(self):
         wd = self.wd
         wd.get("http://localhost/addressbook/index.php")
-        wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_id("LoginForm").click()
         wd.find_element_by_name("pass").click()
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//input[@value='Login']").click()
-        wd.find_element_by_name("MainForm").click()
-        wd.find_element_by_id("nav").click()
+        wd.find_element_by_css_selector("input[type=\"submit\"]").click()
         wd.find_element_by_link_text("groups").click()
         wd.get("http://localhost/addressbook/group.php")
         wd.find_element_by_name("new").click()
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
         wd.find_element_by_name("group_name").send_keys("group_name")
+        wd.find_element_by_name("group_name").clear()
+        wd.find_element_by_name("group_name").send_keys("group_name1")
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys("group_header")
+        wd.find_element_by_name("group_header").send_keys("group_header2")
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys("group_footer")
-        wd.find_element_by_xpath("//form[@action='/addressbook/group.php']").click()
+        wd.find_element_by_name("group_footer").send_keys("group_footer3")
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("group page").click()
         wd.find_element_by_link_text("Logout").click()
