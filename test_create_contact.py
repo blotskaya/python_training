@@ -23,7 +23,7 @@ class Createcontact(unittest.TestCase):
     def create_contact(self, wd, contactname, contactmiddlename, contactsurname, contactnickname, contacttitle,
                        contactcompany, contactaddress, contacthome, contactmobile, contactwork, contactfax,
                        contactmail1, contactmail2, contactmail3, contacthp, contactbyear, contactayear, contactaddress2,
-                       contacthome2, contactnotes):
+                       contacthome2, contactnotes, contactbday, contactbmonth, contactaday, contactamonth):
         #init contact creation
         wd.find_element_by_link_text("add new").click()
         wd.get("http://localhost/addressbook/edit.php")
@@ -77,11 +77,11 @@ class Createcontact(unittest.TestCase):
         wd.find_element_by_name("homepage").click()
         wd.find_element_by_name("homepage").clear()
         wd.find_element_by_name("homepage").send_keys(contacthp)
-        wd.find_element_by_css_selector("select[name=\"bday\"] > option[value=\"11\"]").click()
-        wd.find_element_by_css_selector("select[name=\"bmonth\"] > option[value=\"December\"]").click()
+        wd.find_element_by_css_selector("select[name=\"bday\"] > option[value=%s]" % contactbday).click()
+        wd.find_element_by_css_selector("select[name=\"bmonth\"] > option[value=%s]" % contactbmonth).click()
         wd.find_element_by_name("byear").send_keys(contactbyear)
-        wd.find_element_by_css_selector("select[name=\"aday\"] > option[value=\"7\"]").click()
-        wd.find_element_by_css_selector("select[name=\"amonth\"] > option[value=\"October\"]").click()
+        wd.find_element_by_css_selector("select[name=\"aday\"] > option[value=%s]" % contactaday).click()
+        wd.find_element_by_css_selector("select[name=\"amonth\"] > option[value=%s]" % contactamonth).click()
         wd.find_element_by_name("ayear").send_keys(contactayear)
         wd.find_element_by_name("new_group").click()
         wd.find_element_by_name("address2").click()
@@ -114,7 +114,8 @@ class Createcontact(unittest.TestCase):
                             contactwork="Big Company", contactfax="112233", contactmail1="mariakate@mail.com",
                             contactmail2="bigcompany@mail.com", contactmail3="work@mail.com", contacthp="mariakate.com",
                             contactbyear="1989", contactayear="2020", contactaddress2="Saint Petersburg",
-                            contacthome2="Lomonosova 25", contactnotes="new_notes")
+                            contacthome2="Lomonosova 25", contactnotes="new_notes", contactbday="\"11\"",
+                            contactbmonth="\"December\"", contactaday="\"7\"", contactamonth="\"October\"")
         self.return_to_contacts_page(wd)
         self.logout(wd)
 
