@@ -11,7 +11,7 @@ def app(request):
 
     
 def test_createcontact(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_contact(Contact(name="Maria", middlename="Kate", surname="White",
                             nickname="mariakate", title="new_title", company="Big Company",
                             address="Moscow, Lenina 24", phonehome="Lenina 24", phonemobile="89991112223",
@@ -20,5 +20,5 @@ def test_createcontact(app):
                             byear="1989", ayear="2020", address2="Saint Petersburg",
                             home2="Lomonosova 25", notes="new_notes", bday="\"11\"",
                             bmonth="\"December\"", aday="\"7\"", amonth="\"October\""))
-    app.logout()
+    app.session.logout()
 

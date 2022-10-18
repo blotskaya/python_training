@@ -10,6 +10,6 @@ def app(request):
     return fixture
     
 def test_untitled_test_case(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_group(Group(groupname="group_name1", groupheader="group_header2", groupfooter="group_footer3"))
-    app.logout()
+    app.session.logout()
