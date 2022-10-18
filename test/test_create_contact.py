@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from contact import Contact
-import unittest, time, re
+from model.contact import Contact
+import unittest
+
 
 class Createcontact(unittest.TestCase):
     def setUp(self):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-import unittest, time, re
-from group import Group
+import unittest
+from model.group import Group
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
