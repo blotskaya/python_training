@@ -10,5 +10,5 @@ def test_edit_contact(app):
                                mail2="newcompany@mail.com", mail3="janework@mail.com", hp="janelane.ru",
                                byear="1977", ayear="2015", address2="Moscow",
                                home2="Lenina 25", notes="otes", bday="\"9\"",
-                               bmonth="\"October\"", aday="\"12\"", amonth="\"November\""))
+                               bmonth="\"October\"", aday="\"12\"", amonth="\"november\""))
     app.session.logout()

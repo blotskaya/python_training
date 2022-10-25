@@ -96,6 +96,7 @@ class ContactHelper:
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.name)
         wd.find_element_by_name("middlename").click()
+        wd.find_element_by_name("middlename").clear()
         wd.find_element_by_name("middlename").send_keys(contact.middlename)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
@@ -154,7 +155,7 @@ class ContactHelper:
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
         #submit
-        wd.find_element_by_namer("update").click()
+        wd.find_element_by_name("update").click()
         self.return_to_contacts_page()
 
     def return_to_contacts_page(self):
