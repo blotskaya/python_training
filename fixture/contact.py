@@ -15,8 +15,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        # open contacts page
-        wd.get("http://localhost/addressbook/index.php")
+        self.open_contacts_page()
         #select contact
         wd.find_element_by_name("selected[]").click()
         #delete first contact
@@ -36,7 +35,8 @@ class ContactHelper:
     def open_contacts_page(self):
         wd = self.app.wd
         # open contacts page
-        wd.get("http://localhost/addressbook/index.php")
+        if not wd.current_url.endswith("/index.php"):
+            wd.get("http://localhost/addressbook/index.php")
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
