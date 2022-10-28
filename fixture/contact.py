@@ -25,14 +25,18 @@ class ContactHelper:
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
-        #open contacts page
-        wd.get("http://localhost/addressbook/index.php")
+        self.open_contacts_page()
         #select contact
         wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
         self.fill_contact_form(contact)
         #submit
         wd.find_element_by_name("update").click()
         self.return_to_contacts_page()
+
+    def open_contacts_page(self):
+        wd = self.app.wd
+        # open contacts page
+        wd.get("http://localhost/addressbook/index.php")
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -99,6 +103,11 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
+
+    def count(self):
+        wd = self.app.wd
+        self.open_contacts_page()
+        return len(wd.find_elements_by_name("selected[]"))
 
     def return_to_contacts_page(self):
         wd = self.app.wd
