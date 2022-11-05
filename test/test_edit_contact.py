@@ -2,6 +2,7 @@ from model.contact import Contact
 
 
 def test_edit_contact(app):
+    old_contacts = app.contact.get_contact_list()
     if app.contact.count() == 0:
         app.contact.create((Contact(name="testname", middlename="testmiddlname", surname="testsurname",
                                nickname="testnickname", title="testtitle", company="testcompany",
@@ -19,3 +20,5 @@ def test_edit_contact(app):
                                byear="1977", ayear="2015", address2="Moscow",
                                home2="Lenina 25", notes="otes", bday="\"9\"",
                                bmonth="\"October\"", aday="\"12\"", amonth="\"november\""))
+    new_contacts = app.contact.get_contact_list()
+    assert len(old_contacts) == len(new_contacts)

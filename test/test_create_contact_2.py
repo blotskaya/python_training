@@ -3,6 +3,7 @@ from model.contact import Contact
 
     
 def test_createcontact(app):
+    old_contacts = app.contact.get_contact_list()
     app.contact.create(Contact(name="Maria", middlename="Kate", surname="White",
                                nickname="mariakate", title="new_title", company="Big Company",
                                address="Moscow, Lenina 24", phonehome="Lenina 24", phonemobile="89991112223",
@@ -11,4 +12,6 @@ def test_createcontact(app):
                                byear="1989", ayear="2020", address2="Saint Petersburg",
                                home2="Lomonosova 25", notes="new_notes", bday="\"11\"",
                                bmonth="\"December\"", aday="\"7\"", amonth="\"October\""))
+    new_contacts = app.contact.get_contact_list()
+    assert len(old_contacts) + 1 == len(new_contacts)
 
