@@ -14,6 +14,7 @@ class ContactHelper:
         # submit changes
         wd.find_element_by_css_selector("input[type=\"submit\"]").click()
         self.return_to_contacts_page()
+        self.contact_cache = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -23,6 +24,7 @@ class ContactHelper:
         #delete first contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
+        self.contact_cache = None
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
@@ -33,6 +35,7 @@ class ContactHelper:
         #submit
         wd.find_element_by_name("update").click()
         self.return_to_contacts_page()
+        self.contact_cache = None
 
     def open_contacts_page(self):
         wd = self.app.wd
@@ -82,17 +85,20 @@ class ContactHelper:
         self.open_contacts_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.open_contacts_page()
-        contacts = []
-        for row in wd.find_elements_by_name("entry"):
-            cells = row.find_elements_by_tag_name("td")
-            name = cells[2].text
-            surname = cells[1].text
-            id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-            contacts.append(Contact(name=name, surname=surname, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_contacts_page()
+            self.contact_cache = []
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
+                name = cells[2].text
+                surname = cells[1].text
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                self.contact_cache.append(Contact(name=name, surname=surname, id=id))
+        return list(self.contact_cache)
 
     def return_to_contacts_page(self):
         wd = self.app.wd
