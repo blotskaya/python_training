@@ -19,12 +19,12 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         # select contact
-        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
         # select contact
-        wd.find_elements_by_name("selected[]")[index].click()
+        wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
