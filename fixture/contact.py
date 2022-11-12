@@ -26,13 +26,18 @@ class ContactHelper:
         # select contact
         wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
 
+    def select_contact_by_index_for_del(self, index):
+        wd = self.app.wd
+        # select contact
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
     def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_contacts_page()
-        self.select_contact_by_index(index)
+        self.select_contact_by_index_for_del(index)
         #delete first contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
