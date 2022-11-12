@@ -12,19 +12,19 @@ class ContactHelper:
         wd.get("http://localhost/addressbook/edit.php")
         self.fill_contact_form(contact)
         # submit changes
-        wd.find_element_by_css_selector("input[type=\"submit\"]").click()
+        wd.find_element_by_css_selector('input[type="submit"]').click()
         self.return_to_contacts_page()
         self.contact_cache = None
 
     def select_first_contact(self):
         wd = self.app.wd
         # select contact
-        wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
+        wd.find_element_by_css_selector('img[alt="Edit"]').click()
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
         # select contact
-        wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
+        wd.find_elements_by_css_selector('img[alt="Edit"]')[index].click()
 
     def select_contact_by_index_for_del(self, index):
         wd = self.app.wd
@@ -80,12 +80,12 @@ class ContactHelper:
         self.change_field_value("email2", contact.mail2)
         self.change_field_value("email3", contact.mail3)
         self.change_field_value("homepage", contact.hp)
-        wd.find_element_by_css_selector("select[name=\"bday\"] > option[value=%s]" % contact.bday).click()
-        wd.find_element_by_css_selector("select[name=\"bmonth\"] > option[value=%s]" % contact.bmonth).click()
+        wd.find_element_by_css_selector('select[name="bday"] > option[value=%s]' % contact.bday).click()
+        wd.find_element_by_css_selector('select[name="bmonth"] > option[value=%s]' % contact.bmonth).click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(contact.byear)
-        wd.find_element_by_css_selector("select[name=\"aday\"] > option[value=%s]" % contact.aday).click()
-        wd.find_element_by_css_selector("select[name=\"amonth\"] > option[value=%s]" % contact.amonth).click()
+        wd.find_element_by_css_selector('select[name="aday"] > option[value=%s]' % contact.aday).click()
+        wd.find_element_by_css_selector('select[name="amonth"] > option[value=%s]' % contact.amonth).click()
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.ayear)
         self.change_field_value("address2", contact.address2)
