@@ -126,6 +126,7 @@ class ContactHelper:
 
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
+        self.open_contacts_page()
         self.select_contact_by_index(index)
         name = wd.find_element_by_name("firstname").get_attribute("value")
         surname = wd.find_element_by_name("lastname").get_attribute("value")
