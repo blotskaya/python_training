@@ -1,5 +1,7 @@
 from model.contact import Contact
 
+import re
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -89,7 +91,7 @@ class ContactHelper:
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.ayear)
         self.change_field_value("address2", contact.address2)
-        self.change_field_value("phone2", contact.home2)
+        self.change_field_value("phone2", contact.phonehome2)
         self.change_field_value("notes", contact.notes)
 
     def change_field_value(self, field_name, text):
@@ -116,8 +118,41 @@ class ContactHelper:
                 name = cells[2].text
                 surname = cells[1].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                self.contact_cache.append(Contact(name=name, surname=surname, id=id))
+                allphones = cells[5].text.splitlines()
+                self.contact_cache.append(Contact(name=name, surname=surname, id=id,
+                                                  phonehome=allphones[0], phonemobile=allphones[1],
+                                                  phonework=allphones[2], phonehome2=allphones[3]))
         return list(self.contact_cache)
+
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.select_contact_by_index(index)
+        name = wd.find_element_by_name("firstname").get_attribute("value")
+        surname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        phonehome = wd.find_element_by_name("home").get_attribute("value")
+        phonemobile = wd.find_element_by_name("mobile").get_attribute("value")
+        phonework = wd.find_element_by_name("work").get_attribute("value")
+        phonehome2 = wd.find_element_by_name("phone2").get_attribute("value")
+        return Contact (name=name, surname=surname, id=id, phonehome=phonehome,
+                        phonemobile=phonemobile, phonework=phonework, phonehome2=phonehome2)
+
+    def open_contact_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_contacts_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
+
+    def get_contact_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_contact_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        phonehome = re.search("H: (.*)", text).group(1)
+        phonework = re.search("W: (.*)", text).group(1)
+        phonemobile = re.search("M: (.*)", text).group(1)
+        phonehome2 = re.search("P: (.*)", text).group(1)
+        return Contact(phonehome=phonehome,phonemobile=phonemobile, phonework=phonework, phonehome2=phonehome2)
 
     def return_to_contacts_page(self):
         wd = self.app.wd

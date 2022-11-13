@@ -10,7 +10,7 @@ def test_createcontact(app):
                                phonework="Big Company", phonefax="112233", mail1="mariakate@mail.com",
                                mail2="bigcompany@mail.com", mail3="work@mail.com", hp="mariakate.com",
                                byear="1989", ayear="2020", address2="Saint Petersburg",
-                               home2="Lomonosova 25", notes="new_notes", bday='"11"',
+                               phonehome2="Lomonosova 25", notes="new_notes", bday='"11"',
                                bmonth='"December"', aday='"7"', amonth='"October"')
     app.contact.create(contact)
     assert len(old_contacts) + 1 == app.contact.count()
