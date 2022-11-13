@@ -118,10 +118,12 @@ class ContactHelper:
                 name = cells[2].text
                 surname = cells[1].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                allphones = cells[5].text.splitlines()
+                allphones = cells[5].text
+                allmails = cells[4].text
+                address = cells[3].text
                 self.contact_cache.append(Contact(name=name, surname=surname, id=id,
-                                                  phonehome=allphones[0], phonemobile=allphones[1],
-                                                  phonework=allphones[2], phonehome2=allphones[3]))
+                                                  all_phones_from_home_page=allphones,
+                                                  all_email_from_home_page=allmails, address=address))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
@@ -135,8 +137,13 @@ class ContactHelper:
         phonemobile = wd.find_element_by_name("mobile").get_attribute("value")
         phonework = wd.find_element_by_name("work").get_attribute("value")
         phonehome2 = wd.find_element_by_name("phone2").get_attribute("value")
-        return Contact (name=name, surname=surname, id=id, phonehome=phonehome,
-                        phonemobile=phonemobile, phonework=phonework, phonehome2=phonehome2)
+        mail1 = wd.find_element_by_name("email").get_attribute("value")
+        mail2 = wd.find_element_by_name("email2").get_attribute("value")
+        mail3 = wd.find_element_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+        return Contact(name=name, surname=surname, id=id, phonehome=phonehome,
+                        phonemobile=phonemobile, phonework=phonework, phonehome2=phonehome2,
+                        mail1=mail1, mail2=mail2, mail3=mail3, address=address)
 
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
