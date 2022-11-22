@@ -9,9 +9,9 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
+        self.open_contacts_page()
         # init contact creation
         wd.find_element_by_link_text("add new").click()
-        wd.get("http://localhost/addressbook/edit.php")
         self.fill_contact_form(contact)
         # submit changes
         wd.find_element_by_css_selector('input[type="submit"]').click()
