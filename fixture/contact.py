@@ -41,7 +41,7 @@ class ContactHelper:
     def select_group_by_id(self, group_id):
         wd = self.app.wd
         # select some group
-        wd.find_element_by_name("to_group").find_element_by_css_selector("[value=%s]" % group_id)
+        wd.find_element_by_name("to_group").find_element_by_css_selector("[value='%s']" % group_id)
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
@@ -157,6 +157,22 @@ class ContactHelper:
                                                   all_email_from_home_page=allmails, address=address))
         return list(self.contact_cache)
 
+    def get_phones_list_2(self):
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_contacts_page()
+            self.contact_cache = []
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
+                name = cells[2].text
+                surname = cells[1].text
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                allphones = cells[5].text.splitlines()
+                self.contact_cache.append(Contact(name=name, surname=surname, id=id,
+                                                  all_phones_from_home_page=allphones))
+        return list(self.contact_cache)
+
+
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
         self.open_contacts_page()
@@ -193,6 +209,11 @@ class ContactHelper:
         phonehome2 = re.search("P: (.*)", text).group(1)
         return Contact(phonehome=phonehome,phonemobile=phonemobile, phonework=phonework, phonehome2=phonehome2)
 
+    def get_contacts_in_group_list(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("groups").click()
+
+
     def add_contact_in_group(self, contact_id, group_id):
         wd = self.app.wd
         self.open_contacts_page()
@@ -205,3 +226,4 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()
         wd.get("http://localhost/addressbook/index.php")
+

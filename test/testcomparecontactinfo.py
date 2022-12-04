@@ -1,13 +1,18 @@
 import re
 
-def test_phones_on_homepage(app):
-    contact_from_home_page = app.contact.get_contact_list()[0]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
-    assert contact_from_home_page.name == contact_from_edit_page.name
-    assert contact_from_home_page.surname == contact_from_edit_page.surname
-    assert contact_from_home_page.address == contact_from_edit_page.address
-    assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.all_email_from_home_page == merge_email_like_on_home_page(contact_from_edit_page)
+def test_info_on_homepage_with_db(app, db):
+    contact_from_db = db.get_contact_phones_list()
+    contact_from_home_page = app.contact.get_contact_list()
+    n = len(contact_from_home_page)
+    i = 0
+    for i in range(n):
+        assert contact_from_home_page[i].name == contact_from_db[i].name
+        assert contact_from_home_page[i].surname == contact_from_db[i].surname
+        assert contact_from_home_page[i].address == contact_from_db[i].address
+        assert contact_from_home_page[i].all_phones_from_home_page == merge_phones_like_on_home_page(
+            contact_from_db[i])
+        assert contact_from_home_page[i].all_email_from_home_page == merge_email_like_on_home_page(contact_from_db[i])
+        i += 1
 
 
 def clear(s):

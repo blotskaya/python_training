@@ -1,5 +1,9 @@
 from model.contact import Contact
 import random
+from fixture.orm import ORMFixture
+from model.group import Group
+
+database = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
 def test_add_contact_in_group(app, db):
     if len(db.get_contact_list()) == 0:
@@ -16,3 +20,5 @@ def test_add_contact_in_group(app, db):
     selection_group = random.choice(old_groups)
     selection_contact = random.choice(old_contacts)
     app.contact.add_contact_in_group(selection_contact.id, selection_group.id)
+
+
