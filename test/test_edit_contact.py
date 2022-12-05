@@ -12,7 +12,8 @@ def test_edit_contact(app, db, check_ui):
                                     phonehome2="testhome2", notes="testnotes", bday='"11"',
                                     bmonth='"September"', aday='"10"', amonth='"October"')))
     old_contacts = db.get_contact_list()
-    contact = Contact(name="Maria", middlename="Kate", surname="White",
+    selection = random.choice(old_contacts)
+    contact = Contact(id=selection.id, name="Maria", middlename="Kate", surname="White",
                       nickname="mariakate", title="new_title", company="Big Company",
                       address="Moscow, Lenina 24", phonehome="89990002233", phonemobile="89991112223",
                       phonework="81112223344", phonefax="112233", mail1="mariakate@mail.com",
@@ -20,9 +21,16 @@ def test_edit_contact(app, db, check_ui):
                       byear="1989", ayear="2020", address2="Saint Petersburg",
                       phonehome2="Lomonosova 25", notes="new_notes", bday='"11"',
                       bmonth='"December"', aday='"7"', amonth='"december"')
-    selection = random.choice(old_contacts)
+    index = 0
+    n = len(old_contacts)
+    for i in range(n):
+        if old_contacts[i].id == selection.id:
+            index = i
+        i += 1
     app.contact.edit_contact_by_id(selection.id, contact)
     new_contacts = db.get_contact_list()
+    old_contacts[index] = contact
     assert len(old_contacts) == len(new_contacts)
+    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
     if check_ui:
         assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
