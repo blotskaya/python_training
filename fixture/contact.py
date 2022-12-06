@@ -7,9 +7,9 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
-    def create(self, contact, app):
+    def create(self, contact):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         # init contact creation
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
@@ -46,18 +46,18 @@ class ContactHelper:
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
-    def delete_contact_by_index(self, app, index):
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         self.select_contact_by_index_for_del(index)
         #delete first contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
         self.contact_cache = None
 
-    def delete_contact_by_id(self, app, id):
+    def delete_contact_by_id(self, id):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         self.select_contact_by_id(id)
         #delete first contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
@@ -68,9 +68,9 @@ class ContactHelper:
     def edit_first_contact(self):
         self.edit_contact_by_index(0)
 
-    def edit_contact_by_index(self, app, index, contact):
+    def edit_contact_by_index(self, index, contact):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         self.select_contact_by_index(index)
         self.fill_contact_form(contact)
         #submit
@@ -78,9 +78,9 @@ class ContactHelper:
         self.return_to_contacts_page()
         self.contact_cache = None
 
-    def edit_contact_by_id(self, app, id, contact):
+    def edit_contact_by_id(self, id, contact):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         self.select_contact_by_id(id)
         wd.find_element_by_css_selector('img[alt="Edit"]').click()
         self.fill_contact_form(contact)
@@ -132,17 +132,17 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def count(self, app):
+    def count(self):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
     contact_cache = None
 
-    def get_contact_list(self, app):
+    def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
-            app.open_home_page()
+            self.app.open_home_page()
             self.contact_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
@@ -157,10 +157,10 @@ class ContactHelper:
                                                   all_email_from_home_page=allmails, address=address))
         return list(self.contact_cache)
 
-    def get_phones_list_2(self, app):
+    def get_phones_list_2(self):
         if self.contact_cache is None:
             wd = self.app.wd
-            app.open_home_page()
+            self.app.open_home_page()
             self.contact_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
@@ -173,9 +173,9 @@ class ContactHelper:
         return list(self.contact_cache)
 
 
-    def get_contact_info_from_edit_page(self, app, index):
+    def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         self.select_contact_by_index(index)
         name = wd.find_element_by_name("firstname").get_attribute("value")
         surname = wd.find_element_by_name("lastname").get_attribute("value")
@@ -192,9 +192,9 @@ class ContactHelper:
                         phonemobile=phonemobile, phonework=phonework, phonehome2=phonehome2,
                         mail1=mail1, mail2=mail2, mail3=mail3, address=address)
 
-    def open_contact_view_by_index(self, app, index):
+    def open_contact_view_by_index(self, index):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
@@ -214,9 +214,9 @@ class ContactHelper:
         wd.find_element_by_link_text("groups").click()
 
 
-    def add_contact_in_group(self, app, contact_id, group_id):
+    def add_contact_in_group(self, contact_id, group_id):
         wd = self.app.wd
-        app.open_home_page()
+        self.app.open_home_page()
         self.select_contact_by_id(contact_id)
         wd.find_element_by_name("to_group").click()
         self.select_group_by_id(group_id)
