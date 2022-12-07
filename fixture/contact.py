@@ -9,7 +9,7 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         # init contact creation
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
@@ -48,7 +48,7 @@ class ContactHelper:
 
     def delete_contact_by_index(self, index):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_contact_by_index_for_del(index)
         #delete first contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
@@ -57,7 +57,7 @@ class ContactHelper:
 
     def delete_contact_by_id(self, id):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_contact_by_id(id)
         #delete first contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
@@ -70,7 +70,7 @@ class ContactHelper:
 
     def edit_contact_by_index(self, index, contact):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_contact_by_index(index)
         self.fill_contact_form(contact)
         #submit
@@ -80,7 +80,7 @@ class ContactHelper:
 
     def edit_contact_by_id(self, id, contact):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_contact_by_id(id)
         wd.find_element_by_css_selector('img[alt="Edit"]').click()
         self.fill_contact_form(contact)
@@ -93,7 +93,7 @@ class ContactHelper:
         wd = self.app.wd
         # open contacts page
         if not wd.current_url.endswith("/index.php"):
-            wd.get("http://localhost/addressbook/index.php")
+            self.app.open_home_page()
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -134,7 +134,7 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         return len(wd.find_elements_by_name("selected[]"))
 
     contact_cache = None
@@ -142,7 +142,7 @@ class ContactHelper:
     def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
-            self.app.open_home_page()
+            self.open_contacts_page()
             self.contact_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
@@ -160,7 +160,7 @@ class ContactHelper:
     def get_phones_list_2(self):
         if self.contact_cache is None:
             wd = self.app.wd
-            self.app.open_home_page()
+            self.open_contacts_page()
             self.contact_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
@@ -175,7 +175,7 @@ class ContactHelper:
 
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_contact_by_index(index)
         name = wd.find_element_by_name("firstname").get_attribute("value")
         surname = wd.find_element_by_name("lastname").get_attribute("value")
@@ -194,7 +194,7 @@ class ContactHelper:
 
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
@@ -216,7 +216,7 @@ class ContactHelper:
 
     def add_contact_in_group(self, contact_id, group_id):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_contact_by_id(contact_id)
         wd.find_element_by_name("to_group").click()
         self.select_group_by_id(group_id)
@@ -225,5 +225,4 @@ class ContactHelper:
     def return_to_contacts_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()
-        wd.get("http://localhost/addressbook/index.php")
 
