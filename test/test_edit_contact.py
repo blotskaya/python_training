@@ -26,7 +26,7 @@ def test_edit_contact(app, db, check_ui):
     for i in range(n):
         if old_contacts[i].id == selection.id:
             index = i
-    app.contact.edit_contact_by_id(selection.id, contact)
+    app.contact.edit_contact_by_id(selection.id, index, contact)
     new_contacts = db.get_contact_list()
     old_contacts[index] = contact
     assert len(old_contacts) == len(new_contacts)

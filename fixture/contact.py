@@ -78,11 +78,16 @@ class ContactHelper:
         self.return_to_contacts_page()
         self.contact_cache = None
 
-    def edit_contact_by_id(self, id, contact):
+    def edit_contact_by_id(self, id, index, contact):
         wd = self.app.wd
         self.open_contacts_page()
         self.select_contact_by_id(id)
-        wd.find_element_by_css_selector('img[alt="Edit"]').click()
+        contacts_list = self.get_contact_list()
+        n = len(contacts_list)
+        for i in range(n):
+            if contacts_list[i].id == id:
+                index = i
+        wd.find_elements_by_css_selector('img[alt="Edit"]')[index].click()
         self.fill_contact_form(contact)
         #submit
         wd.find_element_by_name("update").click()
