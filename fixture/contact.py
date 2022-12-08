@@ -78,11 +78,12 @@ class ContactHelper:
         self.return_to_contacts_page()
         self.contact_cache = None
 
-    def edit_contact_by_id(self, id, index, contact):
+    def edit_contact_by_id(self, id, contact):
         wd = self.app.wd
         self.open_contacts_page()
         self.select_contact_by_id(id)
         contacts_list = self.get_contact_list()
+        index = 0
         n = len(contacts_list)
         for i in range(n):
             if contacts_list[i].id == id:
