@@ -38,10 +38,15 @@ class ContactHelper:
         # select contact
         wd.find_element_by_css_selector("input[value='%s']" % contact_id).click()
 
-    def select_group_by_id(self, group_id):
+    def select_group_by_id_for_adding(self, group_id):
         wd = self.app.wd
         # select some group
-        wd.find_element_by_name("to_group").find_element_by_css_selector("[value='%s']" % group_id)
+        wd.find_element_by_name("to_group").find_element_by_css_selector("[value='%s']" % group_id).click()
+
+    def select_group_by_id_for_removing(self, group_id):
+        wd = self.app.wd
+        # select some group
+        wd.find_element_by_name("group").find_element_by_css_selector("[value='%s']" % group_id).click()
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
@@ -225,8 +230,16 @@ class ContactHelper:
         self.open_contacts_page()
         self.select_contact_by_id(contact_id)
         wd.find_element_by_name("to_group").click()
-        self.select_group_by_id(group_id)
+        self.select_group_by_id_for_adding(group_id)
         wd.find_element_by_name("add").click()
+
+    def remove_contact_from_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        wd.find_element_by_name("group").click()
+        self.select_group_by_id_for_removing(group_id)
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("remove").click()
 
     def return_to_contacts_page(self):
         wd = self.app.wd

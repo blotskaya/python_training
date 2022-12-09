@@ -5,7 +5,7 @@ from model.group import Group
 
 database = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
-def test_add_contact_in_group(app, db):
+def test_remove_contact_from_group(app, db):
     if len(db.get_contact_list()) == 0:
         app.contact.create((Contact(name="testname", middlename="testmiddlname", surname="testsurname",
                                     nickname="testnickname", title="testtitle", company="testcompany",
@@ -21,18 +21,19 @@ def test_add_contact_in_group(app, db):
     old_contacts = db.get_contact_list()
     selection_group = random.choice(old_groups)
     selection_contact = random.choice(old_contacts)
-    old_contacts_in_group = database.get_contacts_in_group(Group(id=selection_group.id))
+    contacts_not_in_group = database.get_contacts_not_in_group(Group(selection_group.id))
     m = 0
-    for i in range(len(old_contacts_in_group)):
-        if old_contacts_in_group[i].id == selection_contact.id:
+    for i in range(len(contacts_not_in_group)):
+        if contacts_not_in_group[i].id == selection_contact.id:
             m += 1
-    app.contact.add_contact_in_group(selection_contact.id, selection_group.id)
-    new_contacts_in_group = database.get_contacts_in_group(Group(id=selection_group.id))
     if m == 1:
-        assert len(old_contacts_in_group) == len(new_contacts_in_group)
+        old_contacts_in_group = database.get_contacts_in_group(Group(selection_group.id))
+        app.contact.remove_contact_from_group(selection_contact.id, selection_group.id)
+        new_contacts_in_group = database.get_contacts_in_group(Group(selection_group.id))
+        assert len(old_contacts_in_group) - 1 == len(new_contacts_in_group)
     else:
-        assert len(old_contacts_in_group) + 1 == len(new_contacts_in_group)
-
-
-
-
+        app.contact.add_contact_in_group(selection_contact.id, selection_group.id)
+        old_contacts_in_group = database.get_contacts_in_group(Group(selection_group.id))
+        app.contact.remove_contact_from_group(selection_contact.id, selection_group.id)
+        new_contacts_in_group = database.get_contacts_in_group(Group(selection_group.id))
+        assert len(old_contacts_in_group) - 1 == len(new_contacts_in_group)
