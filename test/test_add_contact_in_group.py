@@ -30,6 +30,7 @@ def test_add_contact_in_group(app, db):
                                     byear="1980", ayear="2022", address2="testaddress2",
                                     phonehome2="testhome2", notes="testnotes", bday='"11"',
                                     bmonth='"September"', aday='"10"', amonth='"October"')))
+        contacts_not_in_group = database.get_contacts_not_in_group(Group(id=selection_group.id))
     selection_contact = random.choice(contacts_not_in_group)
     app.contact.add_contact_in_group(selection_contact.id, selection_group.id)
     new_contacts_in_group = database.get_contacts_in_group(Group(id=selection_group.id))
